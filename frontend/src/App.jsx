@@ -16,14 +16,17 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminProjects from "./pages/admin/AdminProjects";
 import AdminProjectDetail from "./pages/admin/AdminProjectDetail";
 import useAuthStore from "./store/authStore";
+import { useState } from "react";
 
 // Member layout
 function MemberLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
-      <Sidebar />
-      <div className="flex-1 flex flex-col min-w-0">
-        <Navbar />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className="flex-1 flex flex-col min-w-0 lg:ml-0">
+        <Navbar onMenuClick={() => setSidebarOpen(true)} />
         <main className="flex-1 overflow-y-auto">
           <Outlet />
         </main>
@@ -34,11 +37,13 @@ function MemberLayout() {
 
 // Admin layout
 function AdminLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
-      <AdminSidebar />
-      <div className="flex-1 flex flex-col min-w-0">
-        <Navbar />
+      <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className="flex-1 flex flex-col min-w-0 lg:ml-0">
+        <Navbar onMenuClick={() => setSidebarOpen(true)} />
         <main className="flex-1 overflow-y-auto">
           <Outlet />
         </main>
@@ -76,6 +81,7 @@ export default function App() {
           <Route path="users" element={<AdminUsers />} />
           <Route path="projects" element={<AdminProjects />} />
           <Route path="projects/:id" element={<AdminProjectDetail />} />
+          <Route path="profile" element={<ProfilePage />} />
         </Route>
 
         {/* Member routes */}

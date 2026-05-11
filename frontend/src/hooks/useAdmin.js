@@ -9,6 +9,7 @@ import {
   getAdminProjectTasks,
   createAdminTask,
 } from "../services/admin.service";
+import { createProject } from "../services/project.service";
 
 export const useAdminStats = () =>
   useQuery({
@@ -44,6 +45,22 @@ export const useAllProjectsAdmin = () =>
       return res.data.data;
     },
   });
+
+export const useCreateAdminProject = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createProject,
+    onSuccess: (response) => {
+      const newProject = response.data.data;
+      // Update the admin projects list cache immediately with the new project
+      queryClient.setQueryData(["admin-projects"], (oldData) => [...(oldData || []), newProject]);
+      // Also invalidate to ensure consistency
+      queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
+      // Invalidate regular projects query as well
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
+  });
+};
 
 export const useAddMemberToProject = () => {
   const queryClient = useQueryClient();

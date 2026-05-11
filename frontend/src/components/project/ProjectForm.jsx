@@ -4,8 +4,9 @@ import Button from "../ui/Button";
 import Modal from "../ui/Modal";
 import { useCreateProject } from "../../hooks/useProjects";
 
-export default function ProjectForm({ onClose }) {
-  const { mutate: createProject, isPending } = useCreateProject();
+export default function ProjectForm({ onClose, createMutation }) {
+  const defaultMutation = useCreateProject();
+  const { mutate: createProject, isPending } = createMutation || defaultMutation;
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {

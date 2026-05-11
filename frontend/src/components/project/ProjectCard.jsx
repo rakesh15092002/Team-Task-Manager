@@ -8,7 +8,7 @@ export default function ProjectCard({ project }) {
       <h3 className="font-semibold text-gray-800 mb-1 truncate">{project.name}</h3>
       <p className="text-sm text-gray-500 mb-4 line-clamp-2">{project.description || "No description"}</p>
       <div className="flex items-center justify-between">
-        <div className="flex -space-x-2">
+        <div className="flex -space-x-1">
           {project.members?.slice(0, 4).map(m => (
             <Avatar key={m.user._id} name={m.user.name} src={m.user.avatar} size="sm" className="ring-2 ring-white" />
           ))}

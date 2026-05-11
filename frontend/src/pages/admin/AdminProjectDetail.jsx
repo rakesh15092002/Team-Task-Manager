@@ -192,44 +192,73 @@ export default function AdminProjectDetail() {
               + Add Member
             </Button>
           </div>
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
-                <tr>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Member</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Email</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Role</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {project?.members?.map(m => (
-                  <tr key={m.user._id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <Avatar name={m.user.name} src={m.user.avatar} size="sm" />
-                        <span className="text-sm font-medium text-gray-800">
-                          {m.user.name}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-sm text-gray-500">{m.user.email}</td>
-                    <td className="px-4 py-3"><Badge label={m.role} /></td>
-                    <td className="px-4 py-3">
-                      {project?.owner?._id !== m.user._id && (
-                        <Button
-                          size="sm"
-                          variant="danger"
-                          onClick={() => handleRemoveMember(m.user._id)}>
-                          Remove
-                        </Button>
-                      )}
-                    </td>
+          <>
+            {/* Desktop Table */}
+            <div className="hidden lg:block bg-white border border-gray-200 rounded-xl overflow-hidden">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Member</th>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Email</th>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Role</th>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {project?.members?.map(m => (
+                    <tr key={m.user._id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-3">
+                          <Avatar name={m.user.name} src={m.user.avatar} size="sm" />
+                          <span className="text-sm font-medium text-gray-800">
+                            {m.user.name}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-500">{m.user.email}</td>
+                      <td className="px-4 py-3"><Badge label={m.role} /></td>
+                      <td className="px-4 py-3">
+                        {project?.owner?._id !== m.user._id && (
+                          <Button
+                            size="sm"
+                            variant="danger"
+                            onClick={() => handleRemoveMember(m.user._id)}>
+                            Remove
+                          </Button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="lg:hidden space-y-4">
+              {project?.members?.map(m => (
+                <div key={m.user._id} className="bg-white border border-gray-200 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <Avatar name={m.user.name} src={m.user.avatar} size="sm" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-800">{m.user.name}</p>
+                        <p className="text-xs text-gray-500">{m.user.email}</p>
+                      </div>
+                    </div>
+                    <Badge label={m.role} />
+                  </div>
+                  {project?.owner?._id !== m.user._id && (
+                    <Button
+                      size="sm"
+                      variant="danger"
+                      onClick={() => handleRemoveMember(m.user._id)}>
+                      Remove
+                    </Button>
+                  )}
+                </div>
+              ))}
+            </div>
+          </>
         </div>
       )}
 
